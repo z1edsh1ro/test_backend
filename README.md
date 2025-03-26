@@ -12,6 +12,7 @@ This is a backend API built using Laravel that provides currency conversion and 
 - API is flexible and can be extended for additional features.
 
 ## ER-Diagram
+![image](https://github.com/user-attachments/assets/1d3b6816-cdaf-41eb-b489-882e8c81a36d)
 
 
 
