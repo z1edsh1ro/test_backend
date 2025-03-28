@@ -62,7 +62,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        return response()->json($order);
     }
 
     /**
@@ -70,7 +70,35 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer',
+            'p2p_id' => 'integer',
+            'market_id' => 'integer',
+            'amount' => 'required|numeric|regex:/^\d{1,8}(\.\d{1,2})?$/',
+            'method' => 'required|numeric|in:0,1',
+        ]);
+
+        // when fail
+        if ($validator->fails()) {
+            return response()->json([
+                'update fail',
+                $validator->errors(),
+            ]);
+        }
+
+        $order->user_id = $request->user_id;
+        $order->p2p_id = $request->p2p_id;
+        $order->market_id = $request->market_id;
+        $order->amount = $request->amount;
+        $order->method = $request->method;
+
+
+        $order->save();
+
+        return response()->json([
+            'updated success',
+            new OrderResouce($order),
+        ]);
     }
 
     /**
@@ -78,6 +106,10 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        //
+        $order->delete();
+
+        return response()->json(
+            'deleted success',
+        );
     }
 }

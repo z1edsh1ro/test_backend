@@ -58,7 +58,7 @@ class AssetExchangeController extends Controller
      */
     public function show(AssetExchange $assetExchange)
     {
-        //
+        return response()->json($assetExchange);
     }
 
     /**
@@ -66,7 +66,30 @@ class AssetExchangeController extends Controller
      */
     public function update(Request $request, AssetExchange $assetExchange)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer',
+            'currency_id' => 'required|integer',
+            'amount' => 'required|numeric|regex:/^\d{1,8}(\.\d{1,2})?$/',
+        ]);
+
+        // when fail
+        if ($validator->fails()) {
+            return response()->json([
+                'update fail',
+                $validator->errors(),
+            ]);
+        }
+
+        $assetExchange->user_id = $request->user_id;
+        $assetExchange->currency_id = $request->currency_id;
+        $assetExchange->amount = $request->amount;
+
+        $assetExchange->save();
+
+        return response()->json([
+            'updated success',
+            new AssetExchangeResouce($assetExchange),
+        ]);
     }
 
     /**
@@ -74,6 +97,10 @@ class AssetExchangeController extends Controller
      */
     public function destroy(AssetExchange $assetExchange)
     {
-        //
+        $assetExchange->delete();
+
+        return response()->json(
+            'deleted success',
+        );
     }
 }

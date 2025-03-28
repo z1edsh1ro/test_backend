@@ -58,7 +58,10 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        //
+        return response()->json(
+            'fetch by id success',
+            $user
+        );
     }
 
     /**
@@ -66,7 +69,30 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'password' => 'required|string|max:255',
+        ]);
+
+        // when fail
+        if ($validator->fails()) {
+            return response()->json([
+                'update fail',
+                $validator->errors(),
+            ]);
+        }
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = $request->password;
+
+        $user->save();
+
+        return response()->json([
+            'updated success',
+            new UserResouce($user),
+        ]);
     }
 
     /**
@@ -74,6 +100,10 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return response()->json(
+            'deleted success',
+        );
     }
 }

@@ -58,7 +58,7 @@ class AssetWalletController extends Controller
      */
     public function show(AssetWallet $assetWallet)
     {
-        //
+        return response()->json($assetWallet);
     }
 
     /**
@@ -66,7 +66,30 @@ class AssetWalletController extends Controller
      */
     public function update(Request $request, AssetWallet $assetWallet)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer',
+            'currency_id' => 'required|integer',
+            'amount' => 'required|numeric|regex:/^\d{1,8}(\.\d{1,2})?$/',
+        ]);
+
+        // when fail
+        if ($validator->fails()) {
+            return response()->json([
+                'update fail',
+                $validator->errors(),
+            ]);
+        }
+
+        $assetWallet->user_id = $request->user_id;
+        $assetWallet->currency_id = $request->currency_id;
+        $assetWallet->amount = $request->amount;
+
+        $assetWallet->save();
+
+        return response()->json([
+            'updated success',
+            new AssetWalletResouce($assetWallet),
+        ]);
     }
 
     /**
@@ -74,6 +97,10 @@ class AssetWalletController extends Controller
      */
     public function destroy(AssetWallet $assetWallet)
     {
-        //
+        $assetWallet->delete();
+
+        return response()->json(
+            'deleted success',
+        );
     }
 }

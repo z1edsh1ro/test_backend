@@ -54,7 +54,7 @@ class MarketController extends Controller
      */
     public function show(Market $market)
     {
-        //
+        return response()->json($market);
     }
 
     /**
@@ -62,7 +62,35 @@ class MarketController extends Controller
      */
     public function update(Request $request, Market $market)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|integer',
+            'p2p_id' => 'integer',
+            'market_id' => 'integer',
+            'amount' => 'required|numeric|regex:/^\d{1,8}(\.\d{1,2})?$/',
+            'method' => 'required|numeric|in:0,1',
+        ]);
+
+        // when fail
+        if ($validator->fails()) {
+            return response()->json([
+                'update fail',
+                $validator->errors(),
+            ]);
+        }
+
+        $market->user_id = $request->user_id;
+        $market->p2p_id = $request->p2p_id;
+        $market->market_id = $request->market_id;
+        $market->amount = $request->amount;
+        $market->method = $request->method;
+
+
+        $market->save();
+
+        return response()->json([
+            'updated success',
+            new MarketResouce($market),
+        ]);
     }
 
     /**
@@ -70,6 +98,10 @@ class MarketController extends Controller
      */
     public function destroy(Market $market)
     {
-        //
+        $market->delete();
+
+        return response()->json(
+            'deleted success',
+        );
     }
 }

@@ -62,7 +62,7 @@ class P2pController extends Controller
      */
     public function show(P2p $p2p)
     {
-        //
+        return response()->json($p2p);
     }
 
     /**
@@ -70,7 +70,35 @@ class P2pController extends Controller
      */
     public function update(Request $request, P2p $p2p)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'sender_user_id' => 'required|integer',
+            'currency_id' => 'required|integer',
+            'message' => 'required|string',
+            'amount' => 'required|numeric|regex:/^\d{1,8}(\.\d{1,2})?$/',
+            'method' => 'required|numeric|in:0,1',
+        ]);
+
+        // when fail
+        if ($validator->fails()) {
+            return response()->json([
+                'update fail',
+                $validator->errors(),
+            ]);
+        }
+
+        $p2p->sender_user_id = $request->sender_user_id;
+        $p2p->currency_id = $request->currency_id;
+        $p2p->message = $request->message;
+        $p2p->amount = $request->amount;
+        $p2p->method = $request->method;
+
+
+        $p2p->save();
+
+        return response()->json([
+            'updated success',
+            new P2pResouce($p2p),
+        ]);
     }
 
     /**
@@ -78,6 +106,10 @@ class P2pController extends Controller
      */
     public function destroy(P2p $p2p)
     {
-        //
+        $p2p->delete();
+
+        return response()->json(
+            'deleted success',
+        );
     }
 }

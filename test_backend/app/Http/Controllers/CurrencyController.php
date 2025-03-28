@@ -56,7 +56,7 @@ class CurrencyController extends Controller
      */
     public function show(Currency $currency)
     {
-        //
+        return response()->json($currency);
     }
 
     /**
@@ -64,7 +64,28 @@ class CurrencyController extends Controller
      */
     public function update(Request $request, Currency $currency)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'rate' => 'required|numeric|regex:/^\d{1,8}(\.\d{1,2})?$/',
+        ]);
+
+        // when fail
+        if ($validator->fails()) {
+            return response()->json([
+                'update fail',
+                $validator->errors(),
+            ]);
+        }
+
+        $currency->name = $request->name;
+        $currency->rate = $request->rate;
+
+        $currency->save();
+
+        return response()->json([
+            'updated success',
+            new CurrencyResouce($currency),
+        ]);
     }
 
     /**
@@ -72,6 +93,10 @@ class CurrencyController extends Controller
      */
     public function destroy(Currency $currency)
     {
-        //
+        $currency->delete();
+
+        return response()->json(
+            'deleted success',
+        );
     }
 }
