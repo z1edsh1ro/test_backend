@@ -17,17 +17,6 @@ return new class extends Migration
             $table->decimal('rate', 10, 2);
             $table->timestamps();
         });
-
-        Schema::create('wallets', function (Blueprint $table) {
-            $table->increments('id');  // unsigned integer
-            $table->unsignedInteger('currency_id');  // unsigned integer for foreign key
-            $table->decimal('amount', 10, 2);
-            $table->timestamps();
-            
-            $table->foreign('currency_id') // Foreign key constraint
-                  ->references('id')
-                  ->on('currencies');
-        });
     }
 
     /**
@@ -35,7 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('wallets');
         Schema::dropIfExists('currencies');
     }
 };

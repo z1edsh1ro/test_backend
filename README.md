@@ -46,12 +46,6 @@ php artisan serve
 
 - **Method:** `POST`
 - **Endpoint:** `/users`
-- **Header:**
-```json
-{
-
-}
-```
 - **Request Payload:**
 ```json
 {
@@ -76,12 +70,6 @@ curl
 
 - **Method:** `GET`
 - **Endpoint:** `/users`
-- **Header:**
-```json
-{
-
-}
-```
 - **Query Params:**
 ```
 
@@ -104,12 +92,6 @@ curl
 
 - **Method:** `GET`
 - **Endpoint:** `/users`
-- **Header:**
-```json
-{
-
-}
-```
 - **Query Params:**
 ```
 
@@ -144,12 +126,6 @@ curl
 
 - **Method:** `PUT`
 - **Endpoint:** `/users`
-- **Header:**
-```json
-{
-
-}
-```
 - **Query Params:**
 ```
 
@@ -172,12 +148,6 @@ curl
 
 - **Method:** `DELTE`
 - **Endpoint:** `/users`
-- **Header:**
-```json
-{
-
-}
-```
 - **Query Params:**
 ```
 
