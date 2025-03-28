@@ -18,15 +18,20 @@ This is a backend API built using Laravel that provides currency conversion and 
 
 ## Installation
 
-1. Run the migrations database:
+1. move to directory test_backend:
+```
+cd test_backend
+```
+2. create database test_backend:
+3. Run the migrations database:
 ```
 php artisan migrate
 ```
-2. create dummy data:
+4. create dummy data:
 ```
 php artisan db:seed
 ```
-3. run the application:
+5. run the application:
 ```
 php artisan serve
 ```
