@@ -6,13 +6,15 @@ This is a backend API built using Laravel that provides currency conversion and 
 
 ## Features
 
-- Get the latest exchange rates for various currencies.
-- Convert one currency to another.
-- Support for multiple currencies (USD, EUR, GBP, etc.).
-- API is flexible and can be extended for additional features.
+- CRUD `user` data API
+- CRUD `asset_wallet` data API
+- CRUD `asset_exchange` data API
+- CRUD `order` data API
+- CRUD `markets` data API
+- CRUD `p2p` data API
+- CRUD `currency` data API
 
 ## ER-Diagram
-![image](https://github.com/user-attachments/assets/1d3b6816-cdaf-41eb-b489-882e8c81a36d)
 
 
 
@@ -22,7 +24,7 @@ This is a backend API built using Laravel that provides currency conversion and 
 ```
 cd test_backend
 ```
-2. create database test_backend:
+2. create database name test_backend:
 3. Run the migrations database:
 ```
 php artisan migrate
