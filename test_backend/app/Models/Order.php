@@ -9,19 +9,21 @@ class Order extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'id');
     }
 
     public function p2p(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'p2p_id');
+        return $this->belongsTo(User::class, 'id');
     }
 
     public function market(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'market_id');
+        return $this->belongsTo(User::class, 'id');
     }
 
 }

@@ -9,6 +9,8 @@ class P2p extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function currency(): BelongsTo
     {
         return $this->belongsTo(Currency::class, 'currency_id');

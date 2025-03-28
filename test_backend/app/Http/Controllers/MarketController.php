@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Market;
 use Illuminate\Http\Request;
 use App\Http\Resources\MarketResouce;
+use Illuminate\Support\Facades\Validator;
 
 class MarketController extends Controller
 {
@@ -26,7 +27,26 @@ class MarketController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'currency_id' => 'required|integer',
+        ]);
+
+        // when fail
+        if ($validator->fails()) {
+            return response()->json([
+                'create fail',
+                $validator->errors(),
+            ]);
+        }
+
+        $createData = Market::create([
+            'currency_id' => $request->currency_id,
+        ]);
+
+        return response()->json([
+            'created success',
+            new MarketResouce($createData),
+        ]);
     }
 
     /**
