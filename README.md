@@ -31,13 +31,18 @@ php artisan migrate
 ```
 4. create dummy data:
 ```
-php artisan db:seed
+php artisan db:seed --class=UserSeeder
+php artisan db:seed --class=CurrencySeeder
+php artisan db:seed --class=MarketSeeder
+php artisan db:seed --class=P2pSeeder
+php artisan db:seed --class=OrderSeeder
+php artisan db:seed --class=AssetWalletSeeder
+php artisan db:seed --class=AssetExchangeSeeder
 ```
 5. run the application:
 ```
 php artisan serve
 ```
-
 
 ## API Endpoints
 
